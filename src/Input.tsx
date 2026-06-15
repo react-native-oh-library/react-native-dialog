@@ -12,7 +12,9 @@ import {
   ViewStyle,
   StyleProp,
 } from "react-native";
-import useTheme, { StyleBuilder } from "./useTheme";
+import useTheme, { StyleBuilder,selectPlatform } from "./useTheme";
+
+const harmony = (Platform.OS as string) === "harmony";
 
 export interface DialogInputProps extends TextInputProps {
   label?: ReactNode;
@@ -34,7 +36,8 @@ const DialogInput: React.FC<DialogInputProps> = (props) => {
   } = props;
   const lines = (multiline && numberOfLines) || 1;
   const height =
-    18 + Platform.select({ ios: 14, android: 22, default: 0 }) * lines;
+    18 +
+  selectPlatform({ ios: 14, android: 22, harmony: 22, default: 0 }) * lines;
   const { styles, isDark } = useTheme(buildStyles);
   return (
     <View style={[styles.textInputWrapper, wrapperStyle]}>
@@ -44,17 +47,23 @@ const DialogInput: React.FC<DialogInputProps> = (props) => {
         placeholderTextColor={
           Platform.OS === "ios"
             ? PlatformColor("placeholderText")
+            : harmony
+            ? PlatformColor("ohos_id_color_text_hint_contrary")
             : PlatformColor(
                 `@android:color/${
                   isDark ? "hint_foreground_dark" : "hint_foreground_light"
                 }`
               )
         }
-        underlineColorAndroid={PlatformColor(
-          `@android:color/${
-            isDark ? "hint_foreground_dark" : "hint_foreground_light"
-          }`
-        )}
+        underlineColorAndroid={
+          harmony
+            ? PlatformColor("ohos_id_color_text_hint_contrary")
+            : PlatformColor(
+                `@android:color/${
+                  isDark ? "hint_foreground_dark" : "hint_foreground_light"
+                }`
+              )
+        }
         style={[styles.textInput, style, { height }]}
         multiline={multiline}
         numberOfLines={numberOfLines}
@@ -68,7 +77,7 @@ DialogInput.displayName = "DialogInput";
 
 const buildStyles: StyleBuilder = (isDark) =>
   StyleSheet.create({
-    textInputWrapper: Platform.select({
+    textInputWrapper: selectPlatform({
       ios: {
         backgroundColor: PlatformColor("systemGray5"),
         borderWidth: StyleSheet.hairlineWidth,
@@ -82,9 +91,18 @@ const buildStyles: StyleBuilder = (isDark) =>
         marginHorizontal: 10,
         marginBottom: 20,
       },
+      harmony: {
+        backgroundColor: PlatformColor("ohos_id_color_background"),
+        borderWidth: StyleSheet.hairlineWidth,
+        borderRadius: 6,
+        borderColor: PlatformColor("ohos_id_color_list_separator"),
+        marginHorizontal: 20,
+        marginBottom: 20,
+        paddingHorizontal: 8,
+      },
       default: {},
     }),
-    label: Platform.select({
+    label: selectPlatform({
       ios: {
         color: PlatformColor("label"),
       },
@@ -96,9 +114,12 @@ const buildStyles: StyleBuilder = (isDark) =>
         ),
         fontSize: 14,
       },
+      harmony: {
+        color: PlatformColor("ohos_id_color_text_primary") ,
+      },
       default: {},
     }),
-    textInput: Platform.select({
+    textInput: selectPlatform({
       ios: {
         color: PlatformColor("label"),
       },
@@ -110,6 +131,10 @@ const buildStyles: StyleBuilder = (isDark) =>
         ),
         marginLeft: -4,
         paddingLeft: 4,
+      },
+      harmony: {
+        color: PlatformColor("ohos_id_color_text_primary"),
+        textAlign: "center",
       },
       default: {},
     }),

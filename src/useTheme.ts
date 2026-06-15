@@ -1,7 +1,17 @@
 import { useMemo } from "react";
-import { ColorSchemeName, StyleSheet, useColorScheme } from "react-native";
+import {
+  ColorSchemeName,
+  Platform,
+  StyleSheet,
+  useColorScheme,
+} from "react-native";
 
 export type StyleBuilder = (isDark: boolean) => StyleSheet.NamedStyles<any>;
+
+export const selectPlatform = <T extends Record<string, any>>(spec: T): any =>
+  (Platform.OS as string) === "harmony" && "harmony" in spec
+    ? spec.harmony
+    : Platform.select(spec as any);
 
 export interface UseTheme {
   theme: ColorSchemeName;

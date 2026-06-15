@@ -10,7 +10,7 @@ import {
   StyleProp,
 } from "react-native";
 import Modal from "./Modal";
-import useTheme, { StyleBuilder } from "./useTheme";
+import useTheme, { StyleBuilder, selectPlatform } from "./useTheme";
 import DialogTitle, { DialogTitleProps } from "./Title";
 import DialogDescription, { DialogDescriptionProps } from "./Description";
 import DialogButton, { DialogButtonProps } from "./Button";
@@ -23,6 +23,7 @@ type DescriptionElement = ReactElement<
 type ButtonElement = ReactElement<DialogButtonProps, typeof DialogButton>;
 
 const iOS = Platform.OS === "ios";
+const harmony = (Platform.OS as string) === "harmony";
 
 export type DialogContainerProps = PropsWithChildren<{
   blurComponentIOS?: ReactNode;
@@ -70,7 +71,7 @@ const DialogContainer: React.FC<DialogContainerProps> = (props) => {
           descriptionChildrens.push(child as DescriptionElement);
           return;
         case DialogButton.displayName:
-          if (Platform.OS === "ios" && buttonChildrens.length > 0) {
+          if ((iOS || harmony) && buttonChildrens.length > 0) {
             buttonChildrens.push(
               <View
                 style={[
@@ -101,8 +102,8 @@ const DialogContainer: React.FC<DialogContainerProps> = (props) => {
         style={styles.centeredView}
       >
         <View style={[styles.content, contentStyle]}>
-          {Platform.OS === "ios" && blurComponentIOS}
-          {Platform.OS === "ios" && !blurComponentIOS && (
+          {iOS && blurComponentIOS}
+          {iOS && !blurComponentIOS && (
             <View style={[styles.blur, blurStyle]} />
           )}
           <View style={[styles.header, headerStyle]}>
@@ -112,9 +113,7 @@ const DialogContainer: React.FC<DialogContainerProps> = (props) => {
           {otherChildrens}
           {Boolean(buttonChildrens.length) && (
             <>
-              {Platform.OS === "ios" && (
-                <View style={styles.buttonSeparatorVertical} />
-              )}
+              {(iOS || harmony) && <View style={[styles.buttonSeparatorVertical, buttonSeparatorStyle]} />}
               <View
                 style={[
                   styles.footer,
@@ -136,23 +135,28 @@ const DialogContainer: React.FC<DialogContainerProps> = (props) => {
   );
 };
 
-const buildStyles: StyleBuilder = () =>
+const buildStyles: StyleBuilder = (isDark) =>
   StyleSheet.create({
     centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
       marginTop: 22,
     },
     blur: {
       position: "absolute",
-      backgroundColor: PlatformColor("systemGray6"), // "rgb(255,255,255)",
+      backgroundColor: iOS
+        ? PlatformColor("systemGray6")
+        : PlatformColor("ohos_id_color_background"),
       top: 0,
       left: 0,
       bottom: 0,
       right: 0,
     },
-    content: Platform.select({
+    content: selectPlatform({
       ios: {
         width: 270,
-        //backgroundColor: PlatformColor("systemGray6"),
+        backgroundColor: PlatformColor("systemGray6"),
         flexDirection: "column",
         borderRadius: 13,
         overflow: "hidden",
@@ -167,6 +171,14 @@ const buildStyles: StyleBuilder = () =>
         elevation: 4,
         minWidth: 300,
       },
+      harmony: {
+        width: 300,
+        minWidth: 270,
+        backgroundColor: PlatformColor("ohos_id_color_background"),
+        flexDirection: "column",
+        borderRadius: 13,
+        overflow: "hidden",
+      },
       web: {
         flexDirection: "column",
         borderRadius: 3,
@@ -179,12 +191,15 @@ const buildStyles: StyleBuilder = () =>
       },
       default: {},
     }),
-    header: Platform.select({
+    header: selectPlatform({
       ios: {
         margin: 18,
       },
       android: {
         margin: 12,
+      },
+      harmony: {
+        margin: 18,
       },
       web: {
         margin: 12,
@@ -193,7 +208,7 @@ const buildStyles: StyleBuilder = () =>
     }),
     footer: {
       flexDirection: "row",
-      ...Platform.select({
+      ...selectPlatform({
         ios: {
           justifyContent: "space-between",
         },
@@ -201,6 +216,9 @@ const buildStyles: StyleBuilder = () =>
           alignItems: "center",
           justifyContent: "flex-end",
           marginTop: 4,
+        },
+        harmony: {
+          justifyContent: "space-between",
         },
         web: {
           alignItems: "center",
@@ -215,12 +233,16 @@ const buildStyles: StyleBuilder = () =>
     },
     buttonSeparatorHorizontal: {
       height: "100%",
-      backgroundColor: PlatformColor("separator"), //"#A9ADAE",
+      backgroundColor: harmony
+        ? PlatformColor("ohos_id_color_list_separator")
+        : PlatformColor("separator"),
       width: StyleSheet.hairlineWidth,
     },
     buttonSeparatorVertical: {
       width: "100%",
-      backgroundColor: PlatformColor("separator"), //"#A9ADAE",
+      backgroundColor: harmony
+        ? PlatformColor("ohos_id_color_list_separator")
+        : PlatformColor("separator"),
       height: StyleSheet.hairlineWidth,
     },
   });

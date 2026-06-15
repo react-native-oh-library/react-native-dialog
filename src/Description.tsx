@@ -1,12 +1,6 @@
 import * as React from "react";
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  PlatformColor,
-  TextProps,
-} from "react-native";
-import useTheme, { StyleBuilder } from "./useTheme";
+import { StyleSheet, Text, PlatformColor, TextProps } from "react-native";
+import useTheme, { StyleBuilder, selectPlatform } from "./useTheme";
 
 export type DialogDescriptionProps = TextProps;
 
@@ -25,7 +19,7 @@ DialogDescription.displayName = "DialogDescription";
 
 const buildStyles: StyleBuilder = (isDark) =>
   StyleSheet.create({
-    text: Platform.select({
+    text: selectPlatform({
       ios: {
         textAlign: "center",
         color: PlatformColor("label"),
@@ -40,6 +34,12 @@ const buildStyles: StyleBuilder = (isDark) =>
         ),
         fontSize: 16,
         marginTop: 10,
+      },
+      harmony: {
+        textAlign: "center",
+        color: PlatformColor("ohos_id_color_text_primary"),
+        fontSize: 13,
+        marginTop: 4,
       },
       web: {
         color: "#33383D",
