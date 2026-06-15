@@ -1,0 +1,11 @@
+[
+    {
+        "Name": "react-native-dialog",
+        "License": "MIT License",
+        "License File": "https://github.com/mmazzarolo/react-native-dialog/blob/master/LICENSE.md",
+        "Version Number": "9.3.0",
+        "Owner" : "panjinling@huawei.com",
+        "Upstream URL": "https://github.com/mmazzarolo/react-native-dialog",
+        "Description": "an dialog API for React Native on iOS, Android"
+    }
+]

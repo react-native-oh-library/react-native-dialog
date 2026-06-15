@@ -12,7 +12,9 @@ import {
   StyleProp,
   TextStyle,
 } from "react-native";
-import useTheme from "./useTheme";
+import useTheme, { selectPlatform } from "./useTheme";
+
+const harmony = (Platform.OS as string) === "harmony";
 
 export interface DialogCodeInputProps extends TextInputProps {
   autoFocus?: boolean; // TODO: Why do we need to add this to fix TS2339? It should already be included in TextInputProps.
@@ -116,12 +118,12 @@ const buildStyles = (isDark: boolean) =>
     },
     inputContainer: {
       flex: 1,
-      borderColor: PlatformColor("separator"),
+      borderColor: harmony ? "#d1d1d6" : PlatformColor("separator"),
       borderBottomWidth: 3,
       paddingBottom: 5,
       marginHorizontal: 5,
       alignItems: "center",
-      ...Platform.select({
+      ...selectPlatform({
         ios: {
           borderColor: PlatformColor("separator"),
         },
@@ -129,10 +131,13 @@ const buildStyles = (isDark: boolean) =>
           //borderColor: PlatformColor(`@android:color/${isDark ? "secondary_text_dark" : "secondary_text_light"}`),
           borderColor: isDark ? "#efefef" : "#8d8d8d",
         },
+        harmony: {
+          borderColor: PlatformColor("ohos_id_color_list_separator"),
+        },
         default: {},
       }),
     },
-    inputContainerFocused: Platform.select({
+    inputContainerFocused: selectPlatform({
       ios: {
         borderColor: PlatformColor("label"),
       },
@@ -144,9 +149,12 @@ const buildStyles = (isDark: boolean) =>
         ),*/
         borderColor: isDark ? "#58c7b9" : "#169689",
       },
+      harmony: {
+        borderColor: PlatformColor("ohos_id_color_text_primary"),
+      },
       default: {},
     }),
-    inputText: Platform.select({
+    inputText: selectPlatform({
       ios: {
         fontSize: 20,
         color: PlatformColor("label"),
@@ -159,9 +167,13 @@ const buildStyles = (isDark: boolean) =>
         ),
         fontSize: 20,
       },
+      harmony: {
+        color: PlatformColor("ohos_id_color_text_primary"),
+        fontSize: 20,
+      },
       default: {},
     }),
-    label: Platform.select({
+    label: selectPlatform({
       ios: {
         color: PlatformColor("label"),
       },
@@ -171,6 +183,10 @@ const buildStyles = (isDark: boolean) =>
             isDark ? "primary_text_dark" : "primary_text_light"
           }`
         ),
+        fontSize: 14,
+      },
+      harmony: {
+        color: PlatformColor("ohos_id_color_text_primary"),
         fontSize: 14,
       },
       default: {},

@@ -9,9 +9,9 @@ import {
   TextProps,
   ColorValue,
 } from "react-native";
-import useTheme, { StyleBuilder } from "./useTheme";
+import useTheme, { StyleBuilder, selectPlatform } from "./useTheme";
 
-const COLOR = Platform.OS === "ios" ? "#007ff9" : "#169689";
+const COLOR = Platform.OS === "ios" || (Platform.OS as string) === "harmony" ? "#007ff9" : "#169689";
 
 export interface DialogButtonProps extends TextProps {
   label: ReactNode;
@@ -54,7 +54,7 @@ DialogButton.displayName = "DialogButton";
 
 const buildStyles: StyleBuilder = (isDark) =>
   StyleSheet.create({
-    button: Platform.select({
+    button: selectPlatform({
       ios: {
         flexGrow: 1,
         flexShrink: 1,
@@ -66,13 +66,20 @@ const buildStyles: StyleBuilder = (isDark) =>
         justifyContent: "center",
         alignItems: "center",
       },
+      harmony: {
+        flexGrow: 1,
+        flexShrink: 1,
+        height: 46,
+        justifyContent: "center",
+        alignItems: "center",
+      },
       web: {
         justifyContent: "center",
         alignItems: "center",
       },
       default: {},
     }),
-    text: Platform.select({
+    text: selectPlatform({
       ios: {
         color: PlatformColor("link"),
         textAlign: "center",
@@ -88,6 +95,12 @@ const buildStyles: StyleBuilder = (isDark) =>
         padding: 8,
         fontSize: 14,
         textTransform: "uppercase",
+      },
+      harmony: {
+        color: PlatformColor("ohos_id_color_text_hyperlink"),
+        textAlign: "center",
+        fontSize: 17,
+        backgroundColor: "transparent",
       },
       web: {
         textAlign: "center",
