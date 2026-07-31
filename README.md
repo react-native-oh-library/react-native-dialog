@@ -1,103 +1,53 @@
-# react-native-dialog
-
-[![npm version](https://badge.fury.io/js/react-native-dialog.svg)](https://badge.fury.io/js/react-native-dialog)
-
-A flexible pure JavaScript React-Native dialog that follows closely the native UI guidelines.
-
-## Features
-
-- Support for iOS and Android (JavaScript API)
-- A flexible declarative API
-- Follows closely the UI of native dialogs/alerts
-- Can be used both as an alert and as an input prompt
-- Can be injected with any component
-- Supports light/dark mode
-
-## Demo
+﻿> 模板版本：v0.4.2
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/mmazzarolo/react-native-dialog/master/.github/docs-images/react-native-dialog-ios-alert.png" height="500" />
-<img src="https://raw.githubusercontent.com/mmazzarolo/react-native-dialog/master/.github/docs-images/react-native-dialog-android-alert.png" height="500" />
+  <h1 align="center"> <code>react-native-dialog</code> </h1>
 </p>
-
 <p align="center">
-<img src="https://raw.githubusercontent.com/mmazzarolo/react-native-dialog/master/.github/docs-images/react-native-dialog-ios-input.png" height="500" />
-<img src="https://raw.githubusercontent.com/mmazzarolo/react-native-dialog/master/.github/docs-images/react-native-dialog-android-input.png" height="500" />
+    <a href="https://github.com/mmazzarolo/react-native-dialog">
+        <img src="https://img.shields.io/badge/platforms-android%20|%20ios%20|%20harmony%20-lightgrey.svg" alt="Supported platforms" />
+    </a>
+    <a href="https://github.com/mmazzarolo/react-native-dialog/blob/master/LICENSE.md">
+        <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License" />
+    </a>
 </p>
 
-## Setup
+本项目基于 [react-native-dialog](https://github.com/mmazzarolo/react-native-dialog) 开发。
 
-Install the library using npm or yarn:
+该第三方库支持直接从 npm 下载，新的包名为：`@react-native-ohos/react-native-dialog`，版本所属关系如下：
+
+| 三方库名称    | 三方库版本    | 发布信息     | 支持RN版本    | Autolink     | 编译API版本     | 社区基线版本    | npm地址                |
+| ------------ | ------------ | ------------------------------ | ------------- | ------------- |------------------------ | ------------- | ------------- |
+| @react-native-ohos/react-native-dialog | ~ 9.3.1（开发中）    | [Github Releases](https://github.com/react-native-oh-library/react-native-dialog/releases) |  0.72.*/ 0.77.*/ 0.82.*/0.84.* | 否 | API12+ | 9.3.0 | [Npm Address](https://www.npmjs.com/package/@react-native-ohos/react-native-dialog) |
+
+
+## 简介
+
+react-native-dialog 是一个用于 React Native 的轻量级弹窗组件库，用来快速创建 Alert、确认框、输入框、提示框 等对话框 UI
+
+## 安装与使用
+
+进入到工程目录并输入以下命令：
+
+<!-- tabs:start -->
+
+#### **npm**
 
 ```bash
-# Using npm:
-$ npm install react-native-dialog
-# Using yarn:
-$ yarn add react-native-dialog
+npm install @react-native-ohos/react-native-dialog
 ```
 
-## Usage
+#### **yarn**
 
-React-native-dialog exposes a set of components that can be used to build the UI of the dialog:
-
-- **Dialog.Container**: This component is the root component of the dialog and all the other components should be nested inside it.
-- **Dialog.Title**: A `Text` component styled as a native dialog title.
-- **Dialog.Description**: A `Text` component styled as a native dialog description.
-- **Dialog.Button**: A component styled as a native dialog button.
-- **Dialog.Input**: A `TextInput` component styled as a native dialog input.
-- **Dialog.CodeInput**: A `TextInput` component styled as one time code input.
-- **Dialog.Switch**: A native `Switch` component with an optional label.
-
-1. Import react-native-dialog:
-
-```javascript
-import Dialog from "react-native-dialog";
+```bash
+yarn add @react-native-ohos/react-native-dialog
 ```
 
-2. Create a dialog and nest its content inside of it:
+<!-- tabs:end -->
 
-```javascript
-return (
-  <View>
-    <Dialog.Container>
-      <Dialog.Title>Account delete</Dialog.Title>
-      <Dialog.Description>
-        Do you want to delete this account? You cannot undo this action.
-      </Dialog.Description>
-      <Dialog.Button label="Cancel" />
-      <Dialog.Button label="Delete" />
-    </Dialog.Container>
-  </View>
-);
-```
+下面的代码展示了这个库的基本使用场景：
 
-3. Then simply show it by setting the `visible` prop to true:
-
-```javascript
-return (
-  <View>
-    <Dialog.Container visible={true}>
-      <Dialog.Title>Account delete</Dialog.Title>
-      <Dialog.Description>
-        Do you want to delete this account? You cannot undo this action.
-      </Dialog.Description>
-      <Dialog.Button label="Cancel" />
-      <Dialog.Button label="Delete" />
-    </Dialog.Container>
-  </View>
-);
-```
-
-The `visible` prop is the only prop you'll really need to make the dialog work: you should control this prop value by saving it in your state and setting it to `true` or `false` when needed.
-
-## A complete example
-
-The following example consists in a component (`DialogTester`) with a button and a dialog.
-The dialog is controlled by the `dialogVisible` state variable and it is initially hidden since its value is `false`.
-Pressing the button sets `dialogVisible` to true, making the dialog visible.
-Inside the dialog there are two buttons that, when pressed, set `dialogVisible` to false, hiding the dialog.
-
-```javascript
+```js
 import React, { useState } from "react";
 import { Button, StyleSheet, View } from "react-native";
 import Dialog from "react-native-dialog";
@@ -114,21 +64,21 @@ export default function App() {
   };
 
   const handleDelete = () => {
-    // The user has pressed the "Delete" button, so here you can do your own logic.
-    // ...Your logic
+    // 用户点击了"删除"按钮，可以在此处执行自定义逻辑
+    // ...你的逻辑
     setVisible(false);
   };
 
   return (
     <View style={styles.container}>
-      <Button title="Show dialog" onPress={showDialog} />
+      <Button title="显示对话框" onPress={showDialog} />
       <Dialog.Container visible={visible}>
-        <Dialog.Title>Account delete</Dialog.Title>
+        <Dialog.Title>删除账户</Dialog.Title>
         <Dialog.Description>
-          Do you want to delete this account? You cannot undo this action.
+          确定要删除此账户吗？此操作不可撤销。
         </Dialog.Description>
-        <Dialog.Button label="Cancel" onPress={handleCancel} />
-        <Dialog.Button label="Delete" onPress={handleDelete} />
+        <Dialog.Button label="取消" onPress={handleCancel} />
+        <Dialog.Button label="删除" onPress={handleDelete} />
       </Dialog.Container>
     </View>
   );
@@ -144,131 +94,120 @@ const styles = StyleSheet.create({
 });
 ```
 
-## Available props
+## 约束与限制
 
-### Dialog.Button props
+### 兼容性
 
-| Name     | Type   | Default                                | Description                             |
-| -------- | ------ | -------------------------------------- | --------------------------------------- |
-| label    | string | **REQUIRED**                           | The label text                          |
-| color    | string | `#007ff9` on iOS, `#169689` on Android | The label color                         |
-| bold     | bool   | false                                  | Show the label with a bold font weight? |
-| disabled | bool   | false                                  | Disable the button?                     |
-| onPress  | func   | **REQUIRED**                           | Called when the button is pressed       |
+要使用此库，需要使用正确的 React-Native 和 RNOH 版本。另外，还需要使用配套的 DevEco Studio 和 手机 ROM。
 
-### Dialog.Description props
+在以下版本验证通过：
 
-| Name     | Type   | Default      | Description          |
-| -------- | ------ | ------------ | -------------------- |
-| children | string | **REQUIRED** | The description text |
+1. RNOH: 0.72.38; SDK: HarmonyOS-5.0.0(API12); DevEco Studio 6.0.0.868; ROM: 5.0.0.107;
+2. RNOH: 0.77.18; SDK: HarmonyOS 6.0.0 Release SDK; IDE: DevEco Studio 6.0.0.868; ROM: 6.0.0.112;
+3. RNOH: 0.82.1; SDK: HarmonyOS 6.0.1 Release SDK; IDE: DevEco Studio 6.0.1 Release; ROM: 6.0.0.120 SP7;
+4. RNOH: 0.84.1; SDK: HarmonyOS 6.0.1 Release SDK; IDE: DevEco Studio 6.0.1 Release; ROM:6.0.0.120 SP7;
+
+## API
+
+>[!TIP] "Platform"列表示该属性在原三方库上支持的平台。
+
+>[!TIP] "HarmonyOS Support"列为 Yes 表示 HarmonyOS 平台支持该属性；No 则表示不支持；partially 表示部分支持。使用方法跨平台一致，效果对标 iOS 或 Android 的效果。
 
 ### Dialog.Container props
 
-| Name                   | Type   | Default       | Description                                                                                         |
-| ---------------------- | ------ | ------------- | --------------------------------------------------------------------------------------------------- |
-| blurComponentIOS       | node   | A low-opacity | The blur component used in iOS                                                                      |
-| visible                | bool   | **REQUIRED**  | Show the dialog?                                                                                    |
-| children               | node   | **REQUIRED**  | The dialog content                                                                                  |
-| contentStyle           | any    | undefined     | Extra style applied to the dialog content                                                           |
-| headerStyle            | any    | undefined     | Extra style applied to the dialog header                                                            |
-| footerStyle            | any    | undefined     | Extra style applied to the dialog footer                                                            |
-| buttonSeparatorStyle   | any    | undefined     | Extra style applied to the dialog button separator                                                  |
-| onBackdropPress        | func   | undefined     | Callback invoked when the backdrop is pressed                                                       |
-| onRequestClose         | func   | undefined     | Callback invoked when the hardware back button on Android or the menu button on Apple TV is pressed |
-| keyboardVerticalOffset | number | undefined     | keyboardVerticalOffset for iOS                                                                      |
-| verticalButtons        | bool   | false         | Renders button vertically                                                                           |
-| useNativeDriver        | bool   | false         | Defines if animations should use native driver                                                      |
-
-### Dialog.Input props
-
-| Name               | Type   | Default   | Description                                                             |
-| ------------------ | ------ | --------- | ----------------------------------------------------------------------- |
-| label              | string | undefined | The input floating label                                                |
-| wrapperStyle       | any    | undefined | The style applied to the input wrapper View                             |
-| textInputRef       | ref    | undefined | Ref to the input                                                        |
-| unstableLabelStyle | any    | undefined | Likely to be removed in a future version. See issue #141 for discussion |
-
-`Dialog.Input` also accepts all the React-Native's `TextInput` component props.
-
-### Dialog.CodeInput props
-
-| Name                       | Type   | Default   | Description                                                 |
-| -------------------------- | ------ | --------- | ----------------------------------------------------------- |
-| wrapperStyle               | any    | undefined | The style applied to the input wrapper View                 |
-| digitContainerStyle        | any    | undefined | The style applied to the digit container View               |
-| digitContainerFocusedStyle | any    | undefined | The style applied to the digit container View when in focus |
-| digitStyle                 | any    | undefined | The style applied to the digit text                         |
-| codeLength                 | number | 4         | The total number of digits                                  |
-| onCodeChange               | func   | undefined | Called when the input changed                               |
-
-`Dialog.CodeInput` also accepts all the React-Native's `TextInput` component props.
+| Name | Description | Type | Required | Platform | HarmonyOS Support |
+| ---- | ----------- | ---- | -------- | -------- | ------------------ |
+| visible | 是否显示对话框 | boolean | 是 | iOS/Android | Yes |
+| children | 对话框子内容 | ReactNode | 是 | iOS/Android | Yes |
+| blurComponentIOS | iOS 平台的自定义模糊背景组件 | ReactNode | 否 | iOS | No |
+| contentStyle | 对话框内容区域的自定义样式 | StyleProp\<ViewStyle\> | 否 | iOS/Android | Yes |
+| headerStyle | 对话框头部（标题+描述区域）的自定义样式 | StyleProp\<ViewStyle\> | 否 | iOS/Android | Yes |
+| footerStyle | 对话框底部（按钮区域）的自定义样式 | StyleProp\<ViewStyle\> | 否 | iOS/Android | Yes |
+| buttonSeparatorStyle | 按钮分隔线的自定义样式 | StyleProp\<ViewStyle\> | 否 | iOS/Android | Yes |
+| blurStyle | iOS 默认模糊背景的自定义样式 | StyleProp\<ViewStyle\> | 否 | iOS | No |
+| verticalButtons | 是否垂直排列按钮 | boolean | 否 | iOS/Android | Yes |
+| onBackdropPress | 点击背景遮罩的回调 | () => void | 否 | iOS/Android | Yes |
+| onRequestClose | Android 硬件返回键或 Apple TV 菜单键按下时的回调 | () => void | 否 | Android/iOS | Yes |
+| keyboardVerticalOffset | iOS 键盘避让偏移量 | number | 否 | iOS | No |
+| useNativeDriver | 是否使用原生动画驱动 | boolean | 否 | iOS/Android | Yes |
 
 ### Dialog.Title props
 
-| Name     | Type   | Default      | Description    |
-| -------- | ------ | ------------ | -------------- |
-| children | string | **REQUIRED** | The title text |
+| Name | Description | Type | Required | Platform | HarmonyOS Support |
+| ---- | ----------- | ---- | -------- | -------- | ------------------ |
+| children | 标题文本 | string | 是 | iOS/Android | Yes |
 
-`Dialog.Title` also accepts all the React-Native's `Text` component props.
+### Dialog.Description props
+
+| Name | Description | Type | Required | Platform | HarmonyOS Support |
+| ---- | ----------- | ---- | -------- | -------- | ------------------ |
+| children | 描述文本 | string | 是 | iOS/Android | Yes |
+
+### Dialog.Button props
+
+| Name | Description | Type | Required | Platform | HarmonyOS Support |
+| ---- | ----------- | ---- | -------- | -------- | ------------------ |
+| label | 按钮标签文本 | ReactNode | 是 | iOS/Android | Yes |
+| color | 标签颜色，iOS 默认 `#007ff9`，Android 默认 `#169689` | ColorValue | 否 | iOS/Android | Yes |
+| bold | 是否以粗体显示标签 | boolean | 否 | iOS/Android | Yes |
+| disabled | 是否禁用按钮 | boolean | 否 | iOS/Android | Yes |
+| onPress | 按钮点击回调 | () => void | 是 | iOS/Android | Yes |
+
+### Dialog.Input props
+
+| Name | Description | Type | Required | Platform | HarmonyOS Support |
+| ---- | ----------- | ---- | -------- | -------- | ------------------ |
+| label | 输入框的浮动标签文本 | ReactNode | 否 | iOS/Android | Yes |
+| wrapperStyle | 输入框外层容器的自定义样式 | StyleProp\<ViewStyle\> | 否 | iOS/Android | Yes |
+| textInputRef | 输入框的 ref 引用 | LegacyRef\<TextInput\> | 否 | iOS/Android | Yes |
+| unstableLabelStyle | 标签的自定义样式（可能在未来版本中移除） | StyleProp\<TextStyle\> | 否 | iOS/Android | Yes |
+
+### Dialog.CodeInput props
+
+| Name | Description | Type | Required | Platform | HarmonyOS Support |
+| ---- | ----------- | ---- | -------- | -------- | ------------------ |
+| style | 整体容器的自定义样式 | StyleProp\<ViewStyle\> | 否 | iOS/Android | Yes |
+| wrapperStyle | 外层容器的自定义样式 | StyleProp\<ViewStyle\> | 否 | iOS/Android | Yes |
+| digitContainerStyle | 单个数字容器的自定义样式 | StyleProp\<ViewStyle\> | 否 | iOS/Android | Yes |
+| digitContainerFocusedStyle | 聚焦时数字容器的自定义样式 | StyleProp\<ViewStyle\> | 否 | iOS/Android | Yes |
+| digitStyle | 数字文本的自定义样式 | StyleProp\<TextStyle\> | 否 | iOS/Android | Yes |
+| codeLength | 验证码总位数 | number | 否 | iOS/Android | Yes |
+| onCodeChange | 验证码输入变化时的回调 | (code: string) => void | 否 | iOS/Android | Yes |
 
 ### Dialog.Switch props
 
-| Name               | Type   | Default   | Description                                                             |
-| ------------------ | ------ | --------- | ----------------------------------------------------------------------- |
-| label              | string | undefined | The switch description text                                             |
-| unstableLabelStyle | any    | undefined | Likely to be removed in a future version. See issue #141 for discussion |
+| Name | Description | Type | Required | Platform | HarmonyOS Support |
+| ---- | ----------- | ---- | -------- | -------- | ------------------ |
+| label | 开关旁边的描述文本 | ReactNode | 否 | iOS/Android | Yes |
+| unstableLabelStyle | 标签的自定义样式（可能在未来版本中移除） | StyleProp\<TextStyle\> | 否 | iOS/Android | Yes |
 
-`Dialog.Switch` also accepts all the React-Native's `Switch` component props.
+## 遗留问题
 
-## Frequently Asked Questions
+## 其他
 
-### How can I use a custom blur component as the dialog background on iOS?
+## 目录结构
 
-To achieve a look even closer to the native iOS dialog you can provide your own component in the `blurComponentIOS` prop of a `Dialog.Container` and it will be injected in the dialog to be used as a background.
-The `blurComponentIOS` can be useful for example if you want to apply a native blur effect to the dialog.
-Here is an example using `react-native-blur`:
-
-```javascript
-const blurComponentIOS = (
-  <BlurView style={StyleSheet.absoluteFill} blurType="xlight" blurAmount={50} />
-);
-return (
-  <View style={styles.container}>
-    <Dialog.Container visible={visible} blurComponentIOS={blurComponentIOS}>
-      <Dialog.Title>Account delete</Dialog.Title>
-      <Dialog.Description>
-        Do you want to delete this account? You cannot undo this action.
-      </Dialog.Description>
-      <Dialog.Button label="Cancel" onPress={handleCancel} />
-      <Dialog.Button label="Delete" onPress={handleConfirm} />
-    </Dialog.Container>
-  </View>
-);
 ```
 
-### How can I add a 'tap outside dialog' callback?
-
-`react-native-dialog` uses [a thin abstraction on top of the React-Native's modal component](./src/Modal.tsx). Any properties you add to `Dialog.Container` are mapped through to the modal.
-The modal has an `onBackdropPress` property that can be used to register clicks on the backdrop.
-
-Below is an example of how you can close the dialog by tapping outside.
-
-```javascript
-const [visible, setVisible] = useState(true);
-
-const handleCancel = () => {
-  setVisible(false);
-};
-
-return (
-  <Dialog.Container visible={visible} onBackdropPress={handleCancel}>
-    <Dialog.Title>Title</Dialog.Title>
-    <Dialog.Button label="Cancel" onPress={handleCancel} />
-  </Dialog.Container>
-);
+├── src                       # RN 代码
+│   └── index.ts              # 入口文件
+│   └── Button.tsx            # Dialog.Button 组件
+│   └── CodeInput.tsx         # Dialog.CodeInput 组件
+│   └── Container.tsx         # Dialog.Container 组件
+│   └── Description.tsx       # Dialog.Description 组件
+│   └── Input.tsx             # Dialog.Input 组件
+│   └── Modal.tsx             # 弹窗模态层组件
+│   └── Switch.tsx            # Dialog.Switch 组件
+│   └── Title.tsx             # Dialog.Title 组件
+│   └── useTheme.ts           # 主题 hook
+├── README_en.md           # 英文文档
+├── README.md   # 中文文档
 ```
 
-## Acknowledgments
+## 贡献代码
 
-Thanks to the user [@honaf](https://github.com/honaf) who has kindly offered the `react-native-dialog` namespace.
-Also thanks to the user [@leecade](https://github.com/leecade) who offered the namespace `react-native-alert` (which has not been used since "Dialog" seems to suit better this component) and to [@tyxou](https://github.com/tyxou) for the entire codebase refactoring to hooks.
+使用过程中发现任何问题都可以提交 [Issue](https://github.com/react-native-oh-library/react-native-dialog/issues)，当然，也非常欢迎提交 [PR](https://github.com/react-native-oh-library/react-native-dialog/pulls)。
+
+## 开源协议
+
+本项目基于 [The MIT License (MIT)](https://github.com/mmazzarolo/react-native-dialog/blob/master/LICENSE.md) ，请自由地享受和参与开源。
