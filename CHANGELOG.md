@@ -1,4 +1,8 @@
 ### 9.3.1-rc.1
+- pre-release version 9.3.1-rc.2
+- fix: useNativeDriver为true时卡顿问题
+
+### 9.3.1-rc.1
 - pre-release version 9.3.1-rc.1
 - feat: react-native-dialog 鸿蒙化适配  
 
