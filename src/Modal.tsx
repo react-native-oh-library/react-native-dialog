@@ -193,10 +193,13 @@ export class Modal extends Component<ModalProps, ModalState> {
             // Setting "needsOffscreenAlphaCompositing" solves a janky elevation
             // animation on android. We should set it only while animation
             // to avoid using more memory than needed.
+            // On HarmonyOS, skip offscreen compositing when native driver
+            // is used to avoid jank.
             // See: https://github.com/facebook/react-native/issues/23090
-            needsOffscreenAlphaCompositing={["in", "out"].includes(
-              currentAnimation
-            )}
+            needsOffscreenAlphaCompositing={
+              ["in", "out"].includes(currentAnimation) &&
+              !Boolean(this.props.useNativeDriver)
+            }
           >
             {children}
           </Animated.View>
