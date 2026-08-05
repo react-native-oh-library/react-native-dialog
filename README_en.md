@@ -194,7 +194,7 @@ Verified on the following versions:
 │   └── Container.tsx         # Dialog.Container 
 │   └── Description.tsx       # Dialog.Description 
 │   └── Input.tsx             # Dialog.Input 
-│   └── Modal.tsx             # Motal dialog
+│   └── Modal.tsx             # Modal dialog
 │   └── Switch.tsx            # Dialog.Switch 
 │   └── Title.tsx             # Dialog.Title 
 │   └── useTheme.ts           # Theme hook
